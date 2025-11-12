@@ -1,0 +1,52 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: pavel puchkov
+      changes:
+        - createTable:
+            tableName: short_urls
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: original_url
+                  type: VARCHAR(2048)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: short_code
+                  type: VARCHAR(10)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: expires_at
+                  type: TIMESTAMP
+              - column:
+                  name: click_count
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    defaultValue: 0
+
+  - changeSet:
+      id: 2
+      author: pavel puchkov
+      changes:
+        - createIndex:
+            indexName: idx_short_code
+            tableName: short_urls
+            columns:
+              - column:
+                  name: short_code
+                  type: VARCHAR(10)
